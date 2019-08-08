@@ -1,14 +1,14 @@
 main.c: In function ‘main’:
-main.c:16:2: warning: implicit declaration of function ‘signal’ [-Wimplicit-function-declaration]
+main.c:17:2: warning: implicit declaration of function ‘signal’ [-Wimplicit-function-declaration]
   signal(SIGINT,sig_handler);
   ^~~~~~
-main.c:16:9: error: ‘SIGINT’ undeclared (first use in this function)
+main.c:17:9: error: ‘SIGINT’ undeclared (first use in this function)
   signal(SIGINT,sig_handler);
          ^~~~~~
-main.c:16:9: note: each undeclared identifier is reported only once for each function it appears in
-main.c:17:2: error: unknown type name ‘pthread_t’
+main.c:17:9: note: each undeclared identifier is reported only once for each function it appears in
+main.c:18:2: error: unknown type name ‘pthread_t’
   pthread_t tid = 0;
   ^~~~~~~~~
-main.c:19:2: error: expected ‘,’ or ‘;’ before ‘pthread_create’
+main.c:20:2: error: expected ‘;’ before ‘pthread_create’
   pthread_create(&tid,NULL,func,NULL);
   ^~~~~~~~~~~~~~
