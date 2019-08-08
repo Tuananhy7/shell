@@ -1,0 +1,13 @@
+#!/bin/bash
+declare -a data
+data=(0 0 0 0 0)
+gcc main.c >&output.txt
+awk '/error:/ {print NR,$0}' output.txt>input.txt
+input=input.txt
+while read line; do
+	echo $line|awk '{for ( i = 1; i <= NF; i++ ) 
+	if ( $i=="name" ) print $(i+1)}'
+	break	
+done<"$input"
+
+

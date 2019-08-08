@@ -1,0 +1,35 @@
+#!/bin/bash
+declare -a data
+data=(0 0 0 0 0)
+gcc main.c >&output.txt
+awk '/error:/ {print NR,$0}' output.txt>input.txt
+input=input.txt
+while read line; do
+        data[0]=$(echo $line|grep "unknown type"|wc -l)
+        data[1]=$(echo $line|grep "expected"|wc -l)
+        data[2]=$(echo $line|grep "undeclared"|wc -l)
+        sum=$(( ${data[0]} + ${data[1]} + ${data[2]} ))
+        #echo ${data[*]}
+        case $sum in
+                ${data[0]})
+			er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+			if ( $i=="name" ) print $(i+1)}')
+                        ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
+                        echo "unknown type $er $ps"
+                        ;;
+                ${data[1]})
+			er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+			if ( $i=="before" ) print $(i+1)}')
+			er1=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+			if ( $i=="expected" ) print $(i+1)}')
+                        ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
+                        echo "expected $er $er1 $ps"
+                        ;;
+                ${data[2]})
+			er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+			if ( $i=="undeclared" ) print $(i-1)}')      
+			ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
+                        echo "undeclared $er $ps"
+                        ;;
+             esac
+ done < "$input"
