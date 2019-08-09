@@ -1,2 +1,0 @@
-2 main.c:17:2: error: unknown type name ‘pthread_t’
-8 main.c:18:9: error: ‘SIGINT’ undeclared (first use in this function)

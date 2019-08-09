@@ -12,3 +12,6 @@ main.c:18:9: note: each undeclared identifier is reported only once for each fun
 main.c:20:2: warning: implicit declaration of function ‘pthread_create’ [-Wimplicit-function-declaration]
   pthread_create(&tid,NULL,func,NULL);
   ^~~~~~~~~~~~~~
+main.c:21:2: warning: implicit declaration of function ‘sleep’ [-Wimplicit-function-declaration]
+  sleep(1);
+  ^~~~~

@@ -18,5 +18,6 @@ int main()
 	signal(SIGINT,sig_handler);
 	a = 10;
 	pthread_create(&tid,NULL,func,NULL);
+	sleep(1);
 	return 0;
 }

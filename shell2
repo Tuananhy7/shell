@@ -4,6 +4,23 @@ data=(0 0 0 0 0)
 error_type=(0 0 0 0 0)
 gcc main.c >&output.txt
 
+data[0]=tuananh
+leg=${#data[0]}
+echo ${data[0]:0:$leg}
+
+function copyFiles() 
+{
+   arr=("$@")
+   for i in "${arr[@]}";
+      do
+          echo "$i"
+      done
+}
+
+array=("one" "two" "three")
+
+copyFiles "${array[@]}"
+
 func_handler()
 {
 input="input.txt"
@@ -26,8 +43,8 @@ done
 
 ## check error
 
-awk '/error:/ {print NR,$0}' output.txt>input.txt
-func_handler unknown expected undeclared
+#awk '/error:/ {print NR,$0}' output.txt>input.txt
+#func_handler unknown expected undeclared
 
 ## check warning
 
