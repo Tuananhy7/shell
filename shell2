@@ -1,0 +1,35 @@
+#!/bin/bash
+declare -a data
+data=(0 0 0 0 0)
+error_type=(0 0 0 0 0)
+gcc main.c >&output.txt
+
+func_handler()
+{
+input="input.txt"
+read line < "$input"
+echo $line
+
+for j in 1 2 3 4 5
+do
+	error_type[j]="$i"
+	echo "$i"
+done
+
+for j in 1 2 3 4 5
+do
+	echo ${error_type[j]}
+done
+}
+
+### main script start here
+
+## check error
+
+awk '/error:/ {print NR,$0}' output.txt>input.txt
+func_handler unknown expected undeclared
+
+## check warning
+
+#awk '/warning:/ {print NR,$0}' output.txt>input.txt
+#func_handler implicit anh anh

@@ -1,13 +1,14 @@
 #!/bin/bash
-echo "tuananh"
 declare -a data
 data=(0 0 0 0 0)
 error_type=(0 0 0 0 0)
 gcc main.c >&output.txt
+
 func_handler()
 {
-input=input.txt
-while read line; do
+input="input.txt"
+while read line;
+do
         error_type[0]=$1;
         error_type[1]=$2;
         error_type[2]=$3;
@@ -16,41 +17,48 @@ while read line; do
         data[1]=$(echo $line|grep "${error_type[1]}"|wc -l)
         data[2]=$(echo $line|grep "${error_type[2]}"|wc -l)
         sum=$(( ${data[0]} + ${data[1]} + ${data[2]} ))
+		if [ $sum == "0" ]; then 
+			echo "None None None None"
+			return 127
+		fi
         case $sum in
                 ${data[0]})
                         # unknown type name error
+			header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
                         er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="name" ) print $(i+1)}')
-                        er=""
+                        er1=""
                         er1=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="function" ) print $(i+1)}')
                         ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
                         fn=$(if [ -z $er1 ]
                         then
-                                tuananh=10;
+                                temp=10;
                         else
                                 echo "function"
                         fi)
-                        echo "${error_type[0]} $fn $er $er1 $ps"
+			echo "$header ${error_type[0]} $fn $er $er1 $ps"
                         ;;
                 ${data[1]})
                         # expected character ";"
+			header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
                         er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="before" ) print $(i+1)}')
                         er1=$(echo $line|awk -v mvar=${error_type[1]} '{for ( i = 1; i <= NF; i++ )
                         if ( $i==mvar ) print $(i+1)}')
                         ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
-                        echo "${error_type[1]} $er1 $ps"
+                        echo "$header ${error_type[1]} $er1 $ps"
                         ;;
                 ${data[2]})
+			header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
                         # undeclared MACRO or variable
                         er=$(echo $line|awk -v mvar=${error_type[2]} '{for ( i = 1; i <= NF; i++ )
                         if ( $i==mvar ) print $(i-1)}')
                         ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
-                        echo "${error_type[2]} $er $ps"
+                        echo "$header ${error_type[2]} $er $ps"
                         ;;
              esac
-done < "$input"
+     done < "$input"
 }
 
 ### main script start here
