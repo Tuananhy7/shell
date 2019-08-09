@@ -28,8 +28,6 @@ do
                         ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
 			er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="name" ) print $(i+1)}')
-                        er1="";
-			er2="";
                         er1=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="function" ) print $(i+1)}')
 			#variable detect missing pthread flags
@@ -41,38 +39,34 @@ do
 				error_type[0]="reference";
 				ps="0"
 			fi
-			echo "$header ${error_type[0]} $er $er1 $er2 $ps"
+			out_data=$(echo "$header ${error_type[0]} $er $er1 $er2 $ps"|wc -w)
+			if [ $out_data -gt 4 ]; then
+				echo "None None None None"
+				return 127
+			else
+				echo "$header ${error_type[0]} $er $er1 $er2 $ps"
+			fi
                         ;;
                 ${data[1]})
                         # expected character ";"
 			header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
-                        er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+                        ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
+			er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
                         if ( $i=="before" ) print $(i+1)}')
                         er1=$(echo $line|awk -v mvar=${error_type[1]} '{for ( i = 1; i <= NF; i++ )
                         if ( $i==mvar ) print $(i+1)}')
-                        ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
                         echo "$header ${error_type[1]} $er1 $ps"
                         ;;
                 ${data[2]})
                         # undeclared MACRO or variable
 			header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
+			ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
                         er=$(echo $line|awk -v mvar=${error_type[2]} '{for ( i = 1; i <= NF; i++ )
                         if ( $i==mvar ) print $(i-1)}')
-                        ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
                         echo "$header ${error_type[2]} $er $ps"
                         ;;
              esac
      done < "$input"
-}
-
-func_handler2()
-{
-	echo $1|sed 's/_/ /'
-	#input=input.txt
-	#while read line;
-	#do
-	#	echo $line
-	#done < "$input"
 }
 
 ### main script start here

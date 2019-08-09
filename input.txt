@@ -1,0 +1,1 @@
+2 main.c:(.text+0x59): undefined reference to `pthread_create'
