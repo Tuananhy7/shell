@@ -1,1 +1,2 @@
-2 main.c:(.text+0x59): undefined reference to `pthread_create'
+5 main.c:18:2: warning: implicit declaration of function ‘signal’ [-Wimplicit-function-declaration]
+15 main.c:21:2: warning: implicit declaration of function ‘sleep’ [-Wimplicit-function-declaration]

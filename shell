@@ -4,7 +4,7 @@ data=(0 0 0 0 0)
 error_type=(0 0 0 0 0)
 gcc main.c >&output.txt
 
-func_handler()
+func_handler_input()
 {
 input="input.txt"
 while read line;
@@ -12,7 +12,7 @@ do
 	error_type[0]=$(echo $1|sed 's/_/ /')
 	error_type[1]=$(echo $2|sed 's/_/ /')
 	error_type[2]=$(echo $3|sed 's/_/ /')
-        #check key of error return 0 or 1
+      
         data[0]=$(echo $line|grep "${error_type[0]}"|wc -l)
         data[1]=$(echo $line|grep "${error_type[1]}"|wc -l)
         data[2]=$(echo $line|grep "${error_type[2]}"|wc -l)
@@ -39,6 +39,7 @@ do
 				error_type[0]="reference";
 				ps="0"
 			fi
+			# output > 4 fields return
 			out_data=$(echo "$header ${error_type[0]} $er $er1 $er2 $ps"|wc -w)
 			if [ $out_data -gt 4 ]; then
 				echo "None None None None"
@@ -74,15 +75,15 @@ do
 ## check error
 
 awk '/error:/ {print NR,$0}' output.txt>input.txt
-func_handler unknown expected undeclared
+func_handler_input unknown expected undeclared
 
 ## check warning
 
 awk '/warning:/ {print NR,$0}' output.txt>input.txt
-func_handler implicit anh anh
+func_handler_input implicit anh anh
 
 ## check flags pthread
 
 awk '/undefined reference/ {print NR,$0}' output.txt>input.txt
-func_handler undefined_reference anh_tuan anh
+func_handler_input undefined_reference anh_tuan anh
 

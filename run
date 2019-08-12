@@ -1,0 +1,106 @@
+#!/bin/bash
+
+declare -a err_type
+gcc main.c >&output.txt
+
+function_handler_err()
+{
+   result=0;
+   
+   input="input.txt"
+	#store err
+   	j=0
+   	for i in $@;
+      	do
+	      err_type[$j]=$i
+	      j=($j+1);
+      	done
+	if [ ${err_type[0]} == "error:" ];
+	then
+		awk '/error:/ {print NR,$0}' output.txt>input.txt
+	elif [ ${err_type[0]} == "warning:" ];
+	then
+		awk '/warning:/ {print NR,$0}' output.txt>input.txt
+	fi
+	err_type[0]=1997;
+	#handler_err
+   	
+	while read line;
+	do
+		for i in ${err_type[@]};
+		do
+			local err_input=$i
+		      	local check_available=$(echo $line|grep "$err_input"|wc -l)
+			if [ $check_available == 1 ];
+			then
+				# echo "available $err_input"
+				# unknown type name error
+                        	header=$(echo $line|awk '{print $2}'|cut -d':' -f1)
+                        	ps=$(echo $line|awk '{print $0}'|cut -d':' -f2)
+
+				# check unknown
+
+                        	er=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+                        	if ( $i=="name" ) print $(i+1)}')
+                        	er1=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+                        	if ( $i=="function" ) print $(i+1)}')
+
+                        	# variable detect missing pthread flags
+
+                        	er2=$(echo $line|awk '{for ( i = 1; i <= NF; i++ )
+                        	if ( $i=="reference" ) print $(i+2)}')
+                        	if [ -z $er2 ]; then
+                        	        temp=10;
+                        	else
+                        	        err_input="reference";
+                        	        ps="0"
+                        	fi
+				# undeclared MACRO or variable
+				if [ $err_input == "undeclared" ];
+				then
+					er=$(echo $line|awk -v mvar=$err_input '{for ( i = 1; i <= NF; i++ )
+					if ( $i==mvar ) print $(i-1)}')
+				fi
+				if [ $err_input == "expected" ];
+				then
+				er=$(echo $line|awk -v mvar=$err_input '{for ( i = 1; i <= NF; i++ )
+				if ( $i==mvar ) print $(i+1)}')
+				fi
+
+                        	# output > 4 fields return
+                        	out_data=$(echo "$header $err_input $er $er1 $er2 $ps"|wc -w)
+                        	if [ $out_data -gt 4 ]; then
+                        	        echo "None None None None"
+                        	        return 127
+                        	else
+                        	        echo "$header $err_input $er $er1 $er2 $ps"
+                        	fi
+
+			else
+				out=$(echo "unavailable $err_input")
+			fi
+		done
+	done < "$input"
+}
+
+
+
+function_handler_input() 
+{
+    if [ $1 == "error:" ];
+    then
+	    #echo "error handling"
+	    function_handler_err $@
+    elif [ $1 == "warning:" ];
+    then
+	    #echo "warning handling"
+	    function_handler_err $@
+    else
+	    echo note
+    fi
+}
+
+array_issue_err=("unknown" "expected" "undeclared")
+array_issue_warning=("implicit" "ex" "un")
+
+function_handler_input warning: ${array_issue_warning[@]}
