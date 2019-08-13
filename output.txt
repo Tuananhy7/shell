@@ -1,17 +1,32 @@
+main.c:5:16: error: parameter 1 (‘vargp’) has incomplete type
+ void func(void vargp)
+                ^~~~~
+main.c: In function ‘func’:
+main.c:9:34: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘double’ [-Wformat=]
+             printf("sqrt(16) IS %d", sqrt(16));
+                                 ~^
+                                 %f
+main.c:10:24: warning: ‘return’ with a value, in function returning void
+                 return NULL;
+                        ^~~~
+main.c:5:6: note: declared here
+ void func(void vargp)
+      ^~~~
 main.c: In function ‘main’:
-main.c:17:2: error: unknown type name ‘pthread_t’
-  pthread_t tid;
-  ^~~~~~~~~
-main.c:18:2: warning: implicit declaration of function ‘signal’ [-Wimplicit-function-declaration]
-  signal(SIGINT,sig_handler);
-  ^~~~~~
-main.c:18:9: error: ‘SIGINT’ undeclared (first use in this function)
-  signal(SIGINT,sig_handler);
-         ^~~~~~
-main.c:18:9: note: each undeclared identifier is reported only once for each function it appears in
-main.c:20:2: error: expected ‘;’ before ‘pthread_create’
-  pthread_create(&tid,NULL,func,NULL);
-  ^~~~~~~~~~~~~~
-main.c:21:2: warning: implicit declaration of function ‘sleep’ [-Wimplicit-function-declaration]
-  sleep(1);
-  ^~~~~
+main.c:15:17: error: unknown type name ‘pthread_t’
+                 pthread_t t;
+                 ^~~~~~~~~
+main.c:17:17: warning: implicit declaration of function ‘pthread_create’ [-Wimplicit-function-declaration]
+                 pthread_create(&t, NULL, func, NULL);
+                 ^~~~~~~~~~~~~~
+main.c:18:17: warning: implicit declaration of function ‘pthread_join’ [-Wimplicit-function-declaration]
+                 pthread_join(t, NULL);
+                 ^~~~~~~~~~~~
+main.c:20:17: warning: implicit declaration of function ‘pthread_exit’ [-Wimplicit-function-declaration]
+                 pthread_exit(NULL);
+                 ^~~~~~~~~~~~
+main.c:22:9: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+         exit(0);
+         ^~~~
+main.c:22:9: warning: incompatible implicit declaration of built-in function ‘exit’
+main.c:22:9: note: include ‘<stdlib.h>’ or provide a declaration of ‘exit’

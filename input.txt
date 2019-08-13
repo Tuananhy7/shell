@@ -1,2 +1,7 @@
-5 main.c:18:2: warning: implicit declaration of function ‘signal’ [-Wimplicit-function-declaration]
-15 main.c:21:2: warning: implicit declaration of function ‘sleep’ [-Wimplicit-function-declaration]
+5 main.c:9:34: warning: format ‘%d’ expects argument of type ‘int’, but argument 2 has type ‘double’ [-Wformat=]
+9 main.c:10:24: warning: ‘return’ with a value, in function returning void
+19 main.c:17:17: warning: implicit declaration of function ‘pthread_create’ [-Wimplicit-function-declaration]
+22 main.c:18:17: warning: implicit declaration of function ‘pthread_join’ [-Wimplicit-function-declaration]
+25 main.c:20:17: warning: implicit declaration of function ‘pthread_exit’ [-Wimplicit-function-declaration]
+28 main.c:22:9: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
+31 main.c:22:9: warning: incompatible implicit declaration of built-in function ‘exit’
