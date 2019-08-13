@@ -87,6 +87,8 @@ function_search()
 			
 		done
 	done < "$input"
+	echo "None None None None"
+        return 127
 }
 
 
