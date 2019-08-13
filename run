@@ -145,7 +145,7 @@ function_handler_input()
 
 
 array_issue_error=("unknown" "expected" "undeclared" "undefined_reference" )
-array_issue_warning=("implicit" "anh" "anh")
+array_issue_warning=("implicit")
 
 function_handler_input error: ${array_issue_error[@]}
 function_handler_input warning: ${array_issue_warning[@]}
