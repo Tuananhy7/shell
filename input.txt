@@ -5,3 +5,33 @@
 25 main.c:20:17: warning: implicit declaration of function ‘pthread_exit’ [-Wimplicit-function-declaration]
 28 main.c:22:9: warning: implicit declaration of function ‘exit’ [-Wimplicit-function-declaration]
 31 main.c:22:9: warning: incompatible implicit declaration of built-in function ‘exit’
+
+
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug TAnh",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\function_return\\src\\a.exe",
+            "args": [ "${env:PATH}" ],
+            "stopAtEntry": true,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": true,
+            "MIMode": "gdb",
+            "miDebuggerPath": "C:\\Program Files (x86)\\mingw-w64\\i686-8.1.0-posix-dwarf-rt_v6-rev0\\mingw32\\bin\\gdb.exe",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+        }
+    ]
+}
